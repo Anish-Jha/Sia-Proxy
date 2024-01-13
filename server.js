@@ -42,6 +42,25 @@ app.post('/upload', async (req, res) => {
   }
 });
 
+app.get('/getvid', async (req, res) => {
+  try {
+    const response = await axios.get(
+      'https://storage.sia.video.wiki/api/worker/objects/videowiki',
+      req.body,
+      {
+        headers: {
+          'Content-Type': 'application/octet-stream',
+          'Authorization': 'Basic OnBhc3N3b3Jk',
+        },
+      }
+    );
+    res.send(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Proxy server is running on http://localhost:${PORT}`);
 });
