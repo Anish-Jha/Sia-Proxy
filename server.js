@@ -13,11 +13,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Methods', 'PUT');
-  res.send();
-});
-
 
 app.get('/', (req, res) => {
   res.send('Welcome to the API!');
@@ -25,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.put('/upload', async (req, res) => {
   try {
+    console.log(req.body,'djdjj');
     const response = await axios.put(
       'https://storage.sia.video.wiki/api/worker/objects/videowiki',
       req.body,
@@ -36,9 +32,8 @@ app.put('/upload', async (req, res) => {
         responseType: 'arraybuffer', 
       }
     );
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Content-Length', response.data.length);
-    res.end(response.data, 'binary');
+    res.status(200).send(Buffer.from(response.data, 'binary'));
+
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -53,17 +48,18 @@ app.get('/getvid', async (req, res) => {
         headers: {
           'Authorization': 'Basic OnBhc3N3b3Jk',
         },
-        responseType: 'arraybuffer', 
+        responseType: 'arraybuffer',
       }
     );
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Content-Length', response.data.length);
-    res.end(response.data, 'binary');
+
+    res.status(200).send(Buffer.from(response.config.data, 'binary'));
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
+
+
 
 
 app.listen(PORT, () => {
