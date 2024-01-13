@@ -35,6 +35,7 @@ app.post('/upload', async (req, res) => {
         },
       }
     );
+    res.header('Content-Type', 'application/octet-stream');
     res.send(response.data);
   } catch (error) {
     console.error(error);
