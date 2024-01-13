@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 
 app.post('/upload', async (req, res) => {
   try {
-    const response = await axios.post(
+    const response = await axios.put(
       'https://storage.sia.video.wiki/api/worker/objects/videowiki',
       req.body,
       {
