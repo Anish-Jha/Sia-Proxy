@@ -46,15 +46,13 @@ app.get('/getvid', async (req, res) => {
   try {
     const response = await axios.get(
       'https://storage.sia.video.wiki/api/worker/objects/videowiki',
-      req.body,
       {
         headers: {
-          'Content-Type': 'application/octet-stream',
           'Authorization': 'Basic OnBhc3N3b3Jk',
         },
       }
     );
-    res.send(response.data);
+    res.send(response);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
