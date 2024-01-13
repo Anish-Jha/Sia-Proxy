@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to the API!');
 });
 
-app.post('/upload', async (req, res) => {
+app.put('/upload', async (req, res) => {
   try {
     const response = await axios.put(
       'https://storage.sia.video.wiki/api/worker/objects/videowiki',
@@ -33,10 +33,12 @@ app.post('/upload', async (req, res) => {
           'Content-Type': 'application/octet-stream',
           'Authorization': 'Basic OnBhc3N3b3Jk',
         },
+        responseType: 'arraybuffer', 
       }
     );
-    res.header('Content-Type', 'application/octet-stream');
-    res.send(response.data);
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Length', response.data.length);
+    res.end(response.data, 'binary');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -51,14 +53,18 @@ app.get('/getvid', async (req, res) => {
         headers: {
           'Authorization': 'Basic OnBhc3N3b3Jk',
         },
+        responseType: 'arraybuffer', 
       }
-    );  
-    res.send(response.data);
+    );
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Length', response.data.length);
+    res.end(response.data, 'binary');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Proxy server is running on http://localhost:${PORT}`);
