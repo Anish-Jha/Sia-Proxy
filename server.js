@@ -13,11 +13,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Handle preflight requests
-app.options('/upload', (req, res) => {
+app.options('*', (req, res) => {
   res.header('Access-Control-Allow-Methods', 'PUT');
   res.send();
 });
+
 
 app.get('/', (req, res) => {
   res.send('Welcome to the API!');
@@ -35,7 +35,7 @@ app.post('/upload', async (req, res) => {
         },
       }
     );
-    res.json(response.data);
+    res.send(response.data);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
