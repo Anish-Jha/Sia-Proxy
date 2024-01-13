@@ -51,8 +51,8 @@ app.get('/getvid', async (req, res) => {
           'Authorization': 'Basic OnBhc3N3b3Jk',
         },
       }
-    );
-    res.send(response);
+    );  
+    res.send(response.data);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
